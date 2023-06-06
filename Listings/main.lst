@@ -1,0 +1,57 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              12/12/2022 23:46:59 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <reg51.h> 
+   2          #include "lcd.h"     
+   3          #include "ds1307.h" 
+   4          #include "i2c.h"
+   5          #include "delay.h"
+   6          /* main program */
+   7          void main() 
+   8          {
+   9   1         unsigned char sec,min,hour,day,month,year;
+  10   1          lcd_Init();
+  11   1          ds1307_Init();
+  12   1          ds1307_SetTime(0x23,0x59,0x30);  
+  13   1          ds1307_SetDate(0x31,0x12,0x20); 
+  14   1          lcd_DisplayString(" MICRODIGISOFT ");
+  15   1          lcd_Line_posnY();
+  16   1          lcd_DisplayString("REAL-TIME-CLOCK");
+  17   1          delay_ms(1000);
+  18   1         lcd_Clear();
+  19   1          lcd_DisplayString(" Time:");
+  20   1          lcd_Line_posnY();
+  21   1          lcd_DisplayString(" Date:");
+  22   1          delay_ms(1000);
+  23   1          while(1)
+  24   1          {
+  25   2          ds1307_GetTime(&hour,&min,&sec);        
+  26   2          lcd_curser_posn(0,6);      
+  27   2          lcd_DisplayRtcTime(hour,min,sec);
+  28   2          ds1307_GetDate(&day,&month,&year);        
+  29   2          lcd_curser_posn(1,6);      
+  30   2          lcd_DisplayRtcDate(day,month,year);
+  31   2           delay_ms(1000);
+  32   2           }
+  33   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    190    ----
+   CONSTANT SIZE    =     46    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
